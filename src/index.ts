@@ -10,11 +10,11 @@ export * from './config';
 export * from './context';
 export * from './logger';
 
-export const createServer = async (config: Config) => {
+export const createServer = (config: Config) => {
     try {
         // Initialize app and server
         logger.info('Initializing server...');
-        const app = await initializeApp(config);
+        const app = initializeApp(config);
         const server = http.createServer(app.callback());
         logger.info('Finished initializing server.');
 

@@ -1,7 +1,7 @@
 {
     "name": "@danielhuisman/koa-base",
     "description": "Koa server with basic middleware",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "license": "MIT",
     "author": "Daniel Huisman <daniel@huisman.me> (https://danielhuisman.io)",
     "repository": "git@github.com:DanielHuisman/roommate-tracker",

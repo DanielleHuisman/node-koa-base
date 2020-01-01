@@ -15,7 +15,7 @@ import {Config} from './config';
 import {Context} from './context';
 import {middleware as logMiddleware} from './logger';
 
-export const initializeApp = async (config: Config) => {
+export const initializeApp = (config: Config) => {
     // Initialize Koa application
     const app = new Koa<Koa.DefaultState, Context>();
 
