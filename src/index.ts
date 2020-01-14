@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import http, {Server} from 'http';
 
 import {initializeApp} from './app';
