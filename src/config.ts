@@ -4,7 +4,7 @@ import staticMiddleware from 'koa-static';
 export interface Config {
     port: number;
 
-    session: session.opts & {
+    session: Partial<session.opts> & {
         secret: string;
     };
 
