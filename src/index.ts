@@ -2,6 +2,7 @@ import http, {Server} from 'http';
 
 import {initializeApp} from './app';
 import {Config} from './config';
+import {Context} from './context';
 import logger from './logger';
 
 export * from './app';
@@ -9,11 +10,11 @@ export * from './config';
 export * from './context';
 export * from './logger';
 
-export const createServer = (config: Config) => {
+export const createServer = <IContext extends Context = Context>(config: Config) => {
     try {
         // Initialize app and server
         logger.info('Initializing server...');
-        const app = initializeApp(config);
+        const app = initializeApp<IContext>(config);
         const server = http.createServer(app.callback());
         logger.info('Finished initializing server.');
 

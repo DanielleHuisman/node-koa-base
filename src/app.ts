@@ -15,9 +15,9 @@ import {Config} from './config';
 import {Context} from './context';
 import {middleware as logMiddleware} from './logger';
 
-export const initializeApp = (config: Config) => {
+export const initializeApp = <IContext extends Context>(config: Config) => {
     // Initialize Koa application
-    const app = new Koa<Koa.DefaultState, Context>();
+    const app = new Koa<Koa.DefaultState, IContext>();
 
     // Add middleware
     app.use(logMiddleware);
