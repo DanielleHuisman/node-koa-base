@@ -1,4 +1,5 @@
 import http, {Server} from 'http';
+import {DefaultState} from 'koa';
 
 import {initializeApp} from './app';
 import {Config} from './config';
@@ -10,11 +11,11 @@ export * from './config';
 export * from './context';
 export * from './logger';
 
-export const createServer = <IContext extends Context = Context>(config: Config) => {
+export const createServer = <IState = DefaultState, IContext extends Context = Context>(config: Config) => {
     try {
         // Initialize app and server
         logger.info('Initializing server...');
-        const app = initializeApp<IContext>(config);
+        const app = initializeApp<IState, IContext>(config);
         const server = http.createServer(app.callback());
         logger.info('Finished initializing server.');
 
