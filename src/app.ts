@@ -1,4 +1,3 @@
-import zlib from 'zlib';
 import Koa from 'koa';
 import mount from 'koa-mount';
 import helmet from 'koa-helmet';
@@ -25,9 +24,7 @@ export const initializeApp = <IState = Koa.DefaultState, IContext extends Contex
     app.use(responseTime());
     app.use(conditionalGet());
     app.use(etag());
-    app.use(compress({
-        flush: zlib.Z_SYNC_FLUSH
-    }));
+    app.use(compress());
     app.keys = [config.session.secret];
     app.use(session({
         key: 'session',
