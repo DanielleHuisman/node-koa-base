@@ -32,15 +32,23 @@ export const createServer = <IState = DefaultState, IContext extends Context = C
 
 export const startServer = async (config: Config, server: Server) => new Promise((resolve, reject) => {
     try {
-        const host = config.host || 'localhost';
+        const host = config.host;
         const port = config.port;
 
         // Start server
-        server.listen(port, host, () => {
-            logger.info(`Started HTTP server on http://${host}:${port}`);
+        if (host === undefined) {
+            server.listen(port, () => {
+                logger.info(`Started HTTP server on http://localhost:${port}`);
 
-            return resolve();
-        });
+                return resolve();
+            });
+        } else {
+            server.listen(port, host, () => {
+                logger.info(`Started HTTP server on http://${host}:${port}`);
+
+                return resolve();
+            });
+        }
     } catch (err) {
         return reject(err);
     }
