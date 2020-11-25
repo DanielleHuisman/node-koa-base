@@ -20,7 +20,7 @@ export const initializeApp = <IState = Koa.DefaultState, IContext extends Contex
 
     // Add middleware
     app.use(logMiddleware);
-    app.use(helmet());
+    app.use(helmet(config.helmet));
     app.use(responseTime());
     app.use(conditionalGet());
     app.use(etag());
