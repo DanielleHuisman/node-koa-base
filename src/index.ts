@@ -30,7 +30,7 @@ export const createServer = <IState = DefaultState, IContext extends Context = C
     }
 };
 
-export const startServer = async (config: Config, server: Server) => new Promise((resolve, reject) => {
+export const startServer = async (config: Config, server: Server) => new Promise<void>((resolve, reject) => {
     try {
         const host = config.host;
         const port = config.port;
