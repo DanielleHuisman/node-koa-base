@@ -1,6 +1,6 @@
-import helmet from 'helmet';
-import session from 'koa-session';
-import staticMiddleware from 'koa-static';
+import type helmet from 'helmet';
+import type session from 'koa-session';
+import type staticMiddleware from 'koa-static';
 
 // NOTE: koa-helmet does not export this definition
 export type HelmetOptions = Required<Parameters<typeof helmet>>[0];
@@ -15,7 +15,7 @@ export interface Config {
 
     static?: staticMiddleware.Options & {
         serve: boolean;
-        path?: string;
+        path: string;
     };
 
     helmet?: HelmetOptions;

@@ -1,6 +1,6 @@
-import winston from 'winston';
 import chalk from 'chalk';
-import {Middleware} from 'koa';
+import type {Middleware} from 'koa';
+import winston from 'winston';
 
 // Create Winston instance
 export const logger = winston.createLogger({
@@ -10,7 +10,12 @@ export const logger = winston.createLogger({
             format: winston.format.combine(
                 winston.format.timestamp(),
                 winston.format.colorize(),
-                winston.format.printf((info) => `[${info.timestamp}] [server] ${info.level}: ${info instanceof Error ? info.stack : info.message}`)
+                winston.format.printf(
+                    (info) =>
+                        `[${info.timestamp}] [server] ${info.level}: ${
+                            info instanceof Error ? info.stack : info.message
+                        }`
+                )
             )
         })
     ]
@@ -18,7 +23,9 @@ export const logger = winston.createLogger({
 
 export default logger;
 
-const STATUS_COLORS = {
+type Level = 'info' | 'warn' | 'error';
+
+const STATUS_COLORS: Record<Level, string> = {
     error: 'red',
     warn: 'yellow',
     info: 'green'
@@ -30,14 +37,18 @@ export const middleware: Middleware = async (ctx, next) => {
     try {
         await next();
     } catch (err) {
-        // Log the error message
-        logger.error(err.stack || err.message);
+        if (err instanceof Error) {
+            // Log the error message
+            logger.error(err.stack || err.message);
+        } else {
+            logger.error(err);
+        }
     }
     const end = new Date().getTime();
     const responseTime = end - start;
 
     // Determine log level
-    let level = 'info';
+    let level: Level = 'info';
     if (ctx.status >= 500) {
         level = 'error';
     }
@@ -48,7 +59,7 @@ export const middleware: Middleware = async (ctx, next) => {
     // Construct message
     const message = [
         chalk.gray(`${ctx.method} ${ctx.originalUrl}`),
-        chalk[STATUS_COLORS[level]](`${ctx.status}`),
+        (chalk[STATUS_COLORS[level] as keyof typeof chalk] as (text: string) => string)(`${ctx.status}`),
         chalk.gray(`${responseTime}ms`)
     ].join(' ');
 

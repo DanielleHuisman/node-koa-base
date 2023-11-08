@@ -1,17 +1,17 @@
 import Koa from 'koa';
-import mount from 'koa-mount';
-import helmet from 'koa-helmet';
-import responseTime from 'koa-response-time';
+import bodyParser from 'koa-bodyparser';
+import compress from 'koa-compress';
 import conditionalGet from 'koa-conditional-get';
 import etag from 'koa-etag';
-import compress from 'koa-compress';
-import session from 'koa-session';
-import bodyParser from 'koa-bodyparser';
+import helmet from 'koa-helmet';
 import jsonMiddleware from 'koa-json';
+import mount from 'koa-mount';
+import responseTime from 'koa-response-time';
+import session from 'koa-session';
 import staticMiddleware from 'koa-static';
 
-import {Config} from './config';
-import {Context} from './context';
+import type {Config} from './config';
+import type {Context} from './context';
 import {middleware as logMiddleware} from './logger';
 
 export const initializeApp = <IState = Koa.DefaultState, IContext extends Context = Context>(config: Config) => {
@@ -26,27 +26,34 @@ export const initializeApp = <IState = Koa.DefaultState, IContext extends Contex
     app.use(etag());
     app.use(compress());
     app.keys = [config.session.secret];
-    app.use(session({
-        key: 'session',
-        signed: true,
-        ...config.session
-    }, app));
-    app.use(jsonMiddleware({
-        pretty: false,
-        param: 'pretty',
-        spaces: 4
-    }));
+    app.use(
+        session(
+            {
+                key: 'session',
+                signed: true,
+                ...config.session
+            },
+            app as unknown as Koa
+        )
+    );
+    app.use(
+        jsonMiddleware({
+            pretty: false,
+            param: 'pretty',
+            spaces: 4
+        })
+    );
     app.use(bodyParser());
 
     // Register utility function middleware
     app.use(async (ctx, next) => {
-        ctx.success = (data: any, status: number = 200) => {
+        ctx.success = (data: unknown, status: number = 200) => {
             ctx.status = status;
             ctx.body = data;
             return ctx.response;
         };
 
-        ctx.error = (status: number, message: string, data?: {[k: string]: any}) => {
+        ctx.error = (status: number, message: string, data?: Record<string, unknown>) => {
             ctx.status = status;
             ctx.body = {
                 isError: true,
