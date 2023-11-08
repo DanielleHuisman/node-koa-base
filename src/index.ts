@@ -26,7 +26,7 @@ export const createServer = <IState = DefaultState, IContext extends Context = C
     } catch (err) {
         logger.error('Failed to initialize server:');
         logger.error(err);
-        return null;
+        throw new Error('Failed to initialize server.');
     }
 };
 
