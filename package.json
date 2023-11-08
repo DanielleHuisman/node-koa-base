@@ -1,7 +1,7 @@
 {
-    "name": "@danielhuisman/koa-base",
+    "name": "@daniellehuisman/koa-base",
     "description": "Koa server with basic middleware",
-    "version": "1.1.1",
+    "version": "1.2.0",
     "license": "MIT",
     "author": "Danielle Huisman <danielle@huisman.me> (https://github.com/DanielleHuisman)",
     "repository": "git@github.com:DanielleHuisman/node-koa-base",
