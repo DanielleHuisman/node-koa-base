@@ -10,9 +10,9 @@ import responseTime from 'koa-response-time';
 import session from 'koa-session';
 import staticMiddleware from 'koa-static';
 
-import type {Config} from './config';
-import type {Context} from './context';
-import {middleware as logMiddleware} from './logger';
+import type {Config} from './config.js';
+import type {Context} from './context.js';
+import {middleware as logMiddleware} from './logger.js';
 
 export const initializeApp = <IState = Koa.DefaultState, IContext extends Context = Context>(config: Config) => {
     // Initialize Koa application
@@ -20,6 +20,7 @@ export const initializeApp = <IState = Koa.DefaultState, IContext extends Contex
 
     // Add middleware
     app.use(logMiddleware);
+    // @ts-expect-error: Helmet options don't match
     app.use(helmet(config.helmet));
     app.use(responseTime());
     app.use(conditionalGet());

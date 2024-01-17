@@ -1,15 +1,15 @@
 import http, {type Server} from 'http';
 import type {DefaultState} from 'koa';
 
-import {initializeApp} from './app';
-import type {Config} from './config';
-import type {Context} from './context';
-import logger from './logger';
+import {initializeApp} from './app.js';
+import type {Config} from './config.js';
+import type {Context} from './context.js';
+import logger from './logger.js';
 
-export * from './app';
-export * from './config';
-export * from './context';
-export * from './logger';
+export * from './app.js';
+export * from './config.js';
+export * from './context.js';
+export * from './logger.js';
 
 export const createServer = <IState = DefaultState, IContext extends Context = Context>(config: Config) => {
     try {
